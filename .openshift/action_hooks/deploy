@@ -3,3 +3,13 @@
 # build hook has been run but before the application has been started back
 # up again.  This script gets executed directly, so it could be python, php,
 # ruby, etc.
+
+dir=$(cd `dirname $0` && pwd)
+dir="$dir/../.."
+
+if [ -e "$dir/composer.phar" ]; then
+	cd "$dir" && php "$dir/composer.phar" update
+else
+	curl -s https://getcomposer.org/installer | php -- --install-dir="$dir"
+	cd "$dir" && php "$dir/composer.phar" install
+fi
