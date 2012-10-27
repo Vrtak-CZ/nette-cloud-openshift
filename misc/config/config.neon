@@ -5,15 +5,15 @@
 # http://nette.org/security-warning
 #
 common:
+	parameters:
+
 	php:
 		date.timezone: Europe/Prague
-		# session.save_path: "%tempDir%/sessions"
 		# zlib.output_compression: yes
 
-
 	nette:
-		session:
-			expiration: '+ 14 days'
+		application:
+			errorPresenter: Error
 
 		database:
 			default:
@@ -21,11 +21,12 @@ common:
 				user: %database.user%
 				password: %database.password%
 
+		session:
+			expiration: 14 days
+
 
 	services:
-		database: @Nette\Database\Connection
-
-		authenticator: Authenticator( @database::table(users) )
+		authenticator: Authenticator
 
 
 	factories:
@@ -34,6 +35,7 @@ common:
 production < common:
 	includes:
 		- production.php
+
 
 development < common:
 	parameters:
